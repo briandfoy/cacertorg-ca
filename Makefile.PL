@@ -1,5 +1,7 @@
 use ExtUtils::MakeMaker;
 
+eval 'use Test::Manifest 1.21';
+
 WriteMakefile(
 	NAME          => "CACertOrg::CA",
 	VERSION_FROM  => "lib/CACertOrg/CA.pm",
