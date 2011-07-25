@@ -1,10 +1,12 @@
 use strict;
 use Test::More;
 
-use Mozilla::CA;
+my $class = 'CACertOrg::CA';
+use_ok( $class );
+can_ok( $class, qw(SSL_ca_file) );
 
 my $ca_file = CACertOrg::CA::SSL_ca_file();
-diag $ca_file;
+diag "File is <$ca_file>";
 ok( -e $ca_file, 'CA file exists' );
 
 ok( open(my $fh, "<", $ca_file), 'Can open CA file' );

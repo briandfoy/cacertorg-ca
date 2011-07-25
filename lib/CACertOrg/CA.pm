@@ -1,17 +1,20 @@
 package CACertOrg::CA;
 
 use strict;
-our $VERSION = '20110724';
+use vars qw( $VERSION );
+$VERSION = '20110724.001';
 
-use Cwd ();
-use File::Spec ();
+use Cwd            qw();
+use File::Spec     qw();
 use File::Basename qw(dirname);
 
 sub SSL_ca_file { # Stolen from Mozilla::CA
     my $file = File::Spec->catfile( dirname(__FILE__), "CA", "root.crt" );
+
     unless( File::Spec->file_name_is_absolute($file) ) {
 		$file = File::Spec->catfile(Cwd::cwd(), $file);
     	}
+
     return $file;
 	}
 
