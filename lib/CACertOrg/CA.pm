@@ -2,7 +2,7 @@ package CACertOrg::CA;
 
 use strict;
 use vars qw( $VERSION );
-$VERSION = '20110724.001';
+$VERSION = '20110724.002';
 
 use Cwd            qw();
 use File::Spec     qw();
@@ -32,7 +32,7 @@ CACertOrg::CA - CACert.org's CA root certificate in PEM format
     use CACertOrg::CA;
 
     my $ua = LWP::UserAgent->new( ... );
-    my $ua->ssl_opts(
+    $ua->ssl_opts(
     	verify_hostnames => 1,
 		SSL_ca_file      => CACertOrg::CA::SSL_ca_file(),
 		)
