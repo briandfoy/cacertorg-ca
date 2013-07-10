@@ -5,3 +5,5 @@ Makefile
 *.bak
 *.yml
 CACertOrg-*
+MYMETA*
+pause-claim*
