@@ -2,7 +2,7 @@ package CACertOrg::CA;
 
 use strict;
 use vars qw( $VERSION );
-$VERSION = '20110724.002';
+$VERSION = '20110724.004';
 
 use Cwd            qw();
 use File::Spec     qw();
