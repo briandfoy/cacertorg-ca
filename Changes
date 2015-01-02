@@ -1,6 +1,6 @@
 20110724.01 - Sun Jul 24 22:40:29 2011
 	* First release of a module to distribute the CACert.org
-	root certificate. This is handy to connect to 
+	root certificate. This is handy to connect to
 	https://pause.perl.org, for example.
 
 20110724.04 - Fri Jan  3 14:15:00 2014
