@@ -1,27 +1,49 @@
+use 5.008;
 use strict;
 use warnings;
 
-my $github    = 'https://github.com/briandfoy/';
-my $main_file = 'lib/CACertOrg/CA.pm';
+use File::Spec::Functions qw(catfile);
+
+my $module    = 'CACertOrg::CA';
+my $github    = 'https://github.com/briandfoy/cacertorg-ca';
+my $main_file = catfile( 'lib', split /::/, "$module.pm" );
 
 my %WriteMakefile = (
-	NAME          => "CACertOrg::CA",
-	VERSION_FROM  => "lib/CACertOrg/CA.pm",
-	ABSTRACT_FROM => "lib/CACertOrg/CA.pm",
+	NAME          => $module,
+	VERSION_FROM  => $main_file,
+	ABSTRACT_FROM => $main_file,
 	AUTHOR        => 'brian d foy <bdfoy@cpan.org>',
 	LICENSE       => 'mozilla_1_1 gpl-2 lgpl_2_1',
 
+	'CONFIGURE_REQUIRES' => {
+		'ExtUtils::MakeMaker' => '6.64',
+		},
+
+	'BUILD_REQUIRES' => {
+		},
+
+	'TEST_REQUIRES' => {
+		'Test::More' => '0.94',
+		},
+
+	'PREREQ_PM'     => {
+		},
+
 	'META_MERGE' => {
-        'meta-spec' => { version => 2 },
+		'meta-spec' => { version => 2 },
 		resources => {
 			repository => {
 				type => 'git',
-				url  => 'git@github.com:briandfoy/cacertorg-ca',
-				web  => 'https://github.com/briandfoy/cacertorg-ca',
+				url  => "$github.git",
+				web  => $github,
 				},
+			bugtraker => {
+				web    => "$github/issues",
+				},
+			homepage => $github,
 			},
 		},
-);
+	);
 
 sub arguments { \%WriteMakefile }
 
