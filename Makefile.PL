@@ -46,6 +46,8 @@ my %WriteMakefile = (
 			homepage => $github,
 			},
 		},
+
+	clean => { FILES => "$dist-*" },
 	);
 
 sub arguments { \%WriteMakefile }
