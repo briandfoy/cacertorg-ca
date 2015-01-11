@@ -6,7 +6,6 @@ use warnings;
 
 use File::Spec::Functions qw(catfile);
 
-
 my $module    = __PACKAGE__;
 ( my $dist = $module ) =~ s/::/-/g;
 
@@ -14,11 +13,13 @@ my $github    = 'https://github.com/briandfoy/cacertorg-ca';
 my $main_file = catfile( 'lib', split /::/, "$module.pm" );
 
 my %WriteMakefile = (
-	NAME          => $module,
-	VERSION_FROM  => $main_file,
-	ABSTRACT_FROM => $main_file,
-	AUTHOR        => 'brian d foy <bdfoy@cpan.org>',
-	LICENSE       => 'mozilla_1_1 gpl-2 lgpl_2_1',
+	'MIN_PERL_VERSION' => '5.008',
+
+	'NAME'          => $module,
+	'VERSION_FROM'  => $main_file,
+	'ABSTRACT_FROM' => $main_file,
+	'AUTHOR'        => 'brian d foy <bdfoy@cpan.org>',
+	'LICENSE'       => 'mozilla_1_1 gpl-2 lgpl_2_1',
 
 	'CONFIGURE_REQUIRES' => {
 		'ExtUtils::MakeMaker'   => '6.64',
