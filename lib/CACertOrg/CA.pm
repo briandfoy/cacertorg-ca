@@ -22,6 +22,8 @@ sub SSL_ca_file { # Stolen from Mozilla::CA
 
 __END__
 
+=encoding utf8
+
 =head1 NAME
 
 CACertOrg::CA - CACert.org's CA root certificate in PEM format
@@ -69,7 +71,7 @@ L<http://www.cacert.org/index.php?id=3>
 For the bundled CACert.org CA PEM file license comes from:
 
 	http://www.cacert.org/policy/RootDistributionLicense.php
-	
+
 Root Distribution License
 
 =head2 1. Terms
