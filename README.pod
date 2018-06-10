@@ -2,11 +2,21 @@
 
 =encoding utf8
 
+=for HTML <a href="https://travis-ci.org/briandfoy/cacertorg-ca"><img src="https://travis-ci.org/briandfoy/cacertorg-ca.svg?branch=master" /></a>
+
+=for HTML <a href='https://ci.appveyor.com/project/briandfoy/cacertorg-ca'><img src='https://ci.appveyor.com/api/projects/status/uxjswplsohon1kpx' /></a>
+
+=for HTML <a href='https://coveralls.io/github/briandfoy/cacertorg-ca?branch=master'><img src='https://coveralls.io/repos/github/briandfoy/cacertorg-ca/badge.svg?branch=master' alt='Coverage Status' /></a>
+
+=for HTML <a href="https://github.com/briandfoy/cacertorg-ca/blob/master/LICENSE"><img src="https://img.shields.io/cpan/l/CACertOrg-CA.svg" /></a>
+
+=for HTML <a href="http://www.metacpan.org/module/CACertOrg::CA"><img src="https://img.shields.io/cpan/v/CACertOrg-CA.svg" /></A>
+
 =head1 The CACertOrg::CA module
 
-This is the I<README> for the L<CACertOrg::CA> Perl module. You're probably 
+This is the I<README> for the L<CACertOrg::CA> Perl module. You're probably
 looking at this because you don't know where else to find what you're
-looking for. Read this once and you might never have to read one again 
+looking for. Read this once and you might never have to read one again
 for any Perl module.
 
 =head2 Documentation
