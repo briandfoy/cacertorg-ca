@@ -1,5 +1,8 @@
 Revision history for Perl module CACertOrg::CA
 
+20110724.005 2018-06-10T11:49:11Z
+	* Freshen dist. The cert is still the same one on the website.
+
 20110724.04 - 2014-01-03
 	* Get rid of MYMETA
 
