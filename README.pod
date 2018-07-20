@@ -10,7 +10,7 @@
 
 =for HTML <a href="https://github.com/briandfoy/cacertorg-ca/blob/master/LICENSE"><img src="https://img.shields.io/cpan/l/CACertOrg-CA.svg" /></a>
 
-=for HTML <a href="http://www.metacpan.org/module/CACertOrg::CA"><img src="https://img.shields.io/cpan/v/CACertOrg-CA.svg" /></A>
+=for HTML <a href="https://metacpan.org/pod/CACertOrg::CA"><img src="https://img.shields.io/cpan/v/CACertOrg-CA.svg" /></A>
 
 =head1 The CACertOrg::CA module
 
@@ -23,7 +23,7 @@ for any Perl module.
 
 To read about L<CACertOrg::CA>, look at the embedded documentation
 in the module itself. Inside the distribution, you can format it
-with L<perldoc|http://perldoc.perl.org/perldoc.html>:
+with L<perldoc|https://perldoc.perl.orgperldoc.html>:
 
 	% perldoc lib/CACertOrg/CA.pm
 
@@ -33,7 +33,7 @@ name instead of the file location:
 	% perldoc CACertOrg::CA
 
 You can read the documentation and inspect the meta data on
-L<MetaCPAN|http://www.metacpan.org/module/CACertOrg::CA>.
+L<MetaCPAN|https://metacpan.org/pod/CACertOrg::CA>.
 
 The standard module documentation has example uses in the SYNOPSIS
 section, but you can also look in the I<examples/> directory (if it's
