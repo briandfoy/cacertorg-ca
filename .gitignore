@@ -32,3 +32,4 @@ inc/
 nytprof.out
 pause-claim*
 pm_to_blib
+*.icould
