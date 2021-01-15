@@ -42,8 +42,10 @@ CACertOrg::CA - CACert.org's CA root certificate in PEM format
 =head1 DESCRIPTION
 
 CACertOrg::CA provides a copy of Certificate Authority
-certificate for CACert.org. This is the Class 1 PKI Key. See
-http://www.cacert.org/index.php?id=3
+certificate for CACert.org. If you don't already have that, certain
+web user-agents such as L<LWP> may need it to verify site certificates.
+
+This is the Class 1 PKI Key. See http://www.cacert.org/index.php?id=3
 
 This key lasts to Mar 29 12:29:49 2033 GMT
 
