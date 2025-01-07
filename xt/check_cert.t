@@ -115,7 +115,7 @@ sub get_local_pem {
 sub convert_der_to_pem {
 	my( $der ) = @_;
 
-	my @command = qw( openssl x509 -pubin -inform der -out - );
+	my @command = qw( openssl x509  -inform der -out - );
 
 	use IPC::Open2;
 	my $pid = open2(my $child_out, my $child_in, @command );
