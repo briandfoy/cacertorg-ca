@@ -1,5 +1,4 @@
 #!perl
-use v5.10;
 use strict;
 use warnings;
 
@@ -35,8 +34,9 @@ Run as a scheduled GitHub Action (or some other means) lets us detect
 when the root cert may have been updated.
 
 =cut
-
 SKIP:{
+skip "Need v5.10 or later for Digest::SHA" unless $] >= '5.010';
+
 my $version = `openssl version`;
 diag $version;
 
