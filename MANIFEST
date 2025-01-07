@@ -12,3 +12,4 @@ t/check_cert.t
 t/load.t
 t/test_manifest
 xt/changes.t
+xt/check_cert.t
