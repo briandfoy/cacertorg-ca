@@ -38,6 +38,8 @@ when the root cert may have been updated.
 
 SKIP:{
 my $version = `openssl version`;
+diag $version;
+
 skip "Need openssl for this test" unless $version =~ /OpenSSL/;
 
 my( $expected_sha1, $expected_sha256 );
