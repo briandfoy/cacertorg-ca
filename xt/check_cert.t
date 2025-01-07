@@ -124,6 +124,9 @@ sub convert_der_to_pem {
 	close $child_in;
 
 	my $pem = do { local $/; <$child_out> };
+	$pem =~ s/\r\n/\n/g;
+
+	return $pem;
 	}
 
 }
