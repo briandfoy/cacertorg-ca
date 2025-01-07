@@ -40,7 +40,7 @@ SKIP:{
 my $version = `openssl version`;
 diag $version;
 
-skip "Need openssl for this test" unless $version =~ /OpenSSL/;
+skip "Need openssl for this test" unless $version =~ /OpenSSL \s+ 3/x;
 
 my( $expected_sha1, $expected_sha256 );
 subtest 'expected values' => sub {
