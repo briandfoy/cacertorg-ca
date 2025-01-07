@@ -36,6 +36,10 @@ when the root cert may have been updated.
 
 =cut
 
+SKIP:{
+my $version = `openssl version`;
+skip "Need openssl for this test" unless $version =~ /OpenSSL/;
+
 my( $expected_sha1, $expected_sha256 );
 subtest 'expected values' => sub {
 	my $url = 'http://www.cacert.org/index.php?id=3';
@@ -118,3 +122,5 @@ sub convert_der_to_pem {
 
 	my $pem = do { local $/; <$child_out> };
 	}
+
+}
