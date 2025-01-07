@@ -94,6 +94,7 @@ subtest 'current and dist PEM' => sub {
 	is $pem_sha1,   $dist_sha1,   'SHA1 for PEM matches';
 	is $pem_sha256, $dist_sha256, 'SHA256 for PEM matches';
 	};
+}
 
 done_testing();
 
@@ -129,4 +130,3 @@ sub convert_der_to_pem {
 	return $pem;
 	}
 
-}
