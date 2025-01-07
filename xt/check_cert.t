@@ -105,7 +105,7 @@ sub get_remote_der {
 	}
 
 sub get_local_pem {
-	my $file = catfile( qw( .. lib CACertOrg CA root.crt ) );
+	my $file = catfile( qw( lib CACertOrg CA root.crt ) );
 	open my $pem_fh, '<:raw', $file or die "Could not open $file: $!";
 	my $dist_pem = do { local $/; <$pem_fh> };
 	}
