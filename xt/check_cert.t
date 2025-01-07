@@ -2,7 +2,6 @@
 use strict;
 use warnings;
 
-use Digest::SHA qw(sha1_hex sha256_hex);
 use File::Spec::Functions qw(catfile);
 use File::Temp;
 use HTTP::Tiny;
@@ -37,6 +36,8 @@ when the root cert may have been updated.
 SKIP:{
 skip "Need v5.10 or later for Digest::SHA" unless $] >= '5.010';
 
+require Digest::SHA;
+
 my $version = `openssl version`;
 diag $version;
 
@@ -66,8 +67,8 @@ subtest 'remote DER' => sub {
 	$der = get_remote_der();
 	ok defined $der, 'DER is defined';
 
-	my $der_sha1   = uc sha1_hex($der);
-	my $der_sha256 = uc sha256_hex($der);
+	my $der_sha1   = uc Digest::SHA::sha1_hex($der);
+	my $der_sha256 = uc Digest::SHA::sha256_hex($der);
 
 	is $der_sha1,   $expected_sha1,   'SHA1 for DER matches';
 	is $der_sha256, $expected_sha256, 'SHA256 for DER matches';
@@ -79,16 +80,16 @@ subtest 'PEM from DER' => sub {
 	like $pem, qr/\A-----BEGIN CERTIFICATE-----/, 'saw start sequence';
 	like $pem, qr/-----END CERTIFICATE-----\n\z/, 'saw end sequence';
 
-	$pem_sha1   = uc sha1_hex($pem);
-	$pem_sha256 = uc sha256_hex($pem);
+	$pem_sha1   = uc Digest::SHA::sha1_hex($pem);
+	$pem_sha256 = uc Digest::SHA::sha256_hex($pem);
 	};
 
 subtest 'current and dist PEM' => sub {
 	my $dist_pem    = get_local_pem();
 	like $dist_pem, qr/\A-----BEGIN CERTIFICATE-----/, 'saw start sequence';
 	like $dist_pem, qr/-----END CERTIFICATE-----\n\z/, 'saw end sequence';
-	my $dist_sha1   = uc sha1_hex($dist_pem);
-	my $dist_sha256 = uc sha256_hex($dist_pem);
+	my $dist_sha1   = uc Digest::SHA::sha1_hex($dist_pem);
+	my $dist_sha256 = uc Digest::SHA::sha256_hex($dist_pem);
 
 	is $pem_sha1,   $dist_sha1,   'SHA1 for PEM matches';
 	is $pem_sha256, $dist_sha256, 'SHA256 for PEM matches';
