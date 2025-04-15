@@ -139,10 +139,12 @@ sub convert_der_to_pem {
 
 	diag "trying to read output";
 
+
 	my $pem;
-	while( <$child_out> ) {
-		$pem .= $_;
-		}
+	sysread $child_out, $pem, 65535;
+	close $child_out;
+	waitpid $pid, 0;
+
 	$pem =~ s/\r\n/\n/g;
 
 	return $pem;
