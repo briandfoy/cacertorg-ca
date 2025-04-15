@@ -138,8 +138,11 @@ sub convert_der_to_pem {
 	diag "closed input";
 
 	diag "trying to read output";
-	my $pem = do { local $/; <$child_out> };
-	diag "read  output";
+
+	my $pem;
+	while( <$child_out> ) {
+		$pem .= $_;
+		}
 	$pem =~ s/\r\n/\n/g;
 
 	return $pem;
