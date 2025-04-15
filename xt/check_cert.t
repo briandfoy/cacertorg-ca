@@ -6,7 +6,6 @@ use File::Spec::Functions qw(catfile);
 use File::Temp;
 use HTTP::Tiny;
 use Test::More;
-use Data::Dumper;
 
 =encoding utf8
 
@@ -43,11 +42,8 @@ diag $version;
 
 skip "Need openssl for this test" unless $version =~ /OpenSSL/x;
 
-	diag "Past skip";
-
 my( $expected_sha1, $expected_sha256 );
 subtest 'expected values' => sub {
-	diag "Expected values";
 	my $url = 'http://www.cacert.org/index.php?id=3';
 	my $response = HTTP::Tiny->new->get($url);
 	my $html = $response->{content};
@@ -58,18 +54,12 @@ subtest 'expected values' => sub {
 	$expected_sha1   =~ s/\s+//g;
 	$expected_sha256 =~ s/\s+//g;
 
-	diag "Past expected";
-
 	like $expected_sha1,   qr/[A-F0-9]{32}/, 'SHA1 looks like it should';
 	like $expected_sha256, qr/[A-F0-9]{64}/, 'SHA256 looks like it should';
-
-	diag "SHA1: $expected_sha1";
-	diag "SHA256: $expected_sha256";
 	};
 
 my $der;
 subtest 'remote DER' => sub {
-	diag "remote DER";
 	$der = get_remote_der();
 	ok defined $der, 'DER is defined';
 
@@ -81,11 +71,8 @@ subtest 'remote DER' => sub {
 	};
 
 my( $pem_sha1, $pem_sha256 );
-SKIP: {
-skip "Windows can't do this" if $^O eq 'MSWin32';
 
 subtest 'PEM from DER' => sub {
-	diag "PEM from DER: $^O";
 	my $pem = convert_der_to_pem($der);
 	like $pem, qr/\A-----BEGIN CERTIFICATE-----/, 'saw start sequence';
 	like $pem, qr/-----END CERTIFICATE-----\n\z/, 'saw end sequence';
@@ -95,7 +82,6 @@ subtest 'PEM from DER' => sub {
 	};
 
 subtest 'current and dist PEM' => sub {
-	diag "current";
 	my $dist_pem    = get_local_pem();
 	like $dist_pem, qr/\A-----BEGIN CERTIFICATE-----/, 'saw start sequence';
 	like $dist_pem, qr/-----END CERTIFICATE-----\n\z/, 'saw end sequence';
@@ -106,13 +92,11 @@ subtest 'current and dist PEM' => sub {
 	is $pem_sha256, $dist_sha256, 'SHA256 for PEM matches';
 	};
 }
-}
 
 done_testing();
 
 sub get_remote_der {
 	my $url = 'http://www.cacert.org/certs/root_X0F.der';
-	diag "Fetching $url";
 	my $response = HTTP::Tiny->new->get($url);
 	is $response->{status}, '200', 'fetched DER' or do {
 		done_testing();
@@ -129,20 +113,26 @@ sub get_local_pem {
 
 sub convert_der_to_pem {
 	my( $der ) = @_;
+	my($ifh, $in_filename) = File::Temp::tempfile(UNLINK => 1);
+	binmode $ifh, ':raw';
+	print {$ifh} $der;
+	close $ifh;
 
-	diag "convert_der_to_pem";
+	my($ofh, $out_filename) = File::Temp::tempfile(UNLINK => 1);
+	close $ofh;
 
-	my @command = qw( openssl x509  -inform der -out - );
+	my @command = (
+		qw(openssl x509 --inform der),
+		'-in', $in_filename,
+		'-out', $out_filename,
+		);
 
-	use IPC::Open2;
-	my $pid = open2(my $child_out, my $child_in, @command );
-	print { $child_in } $der;
-	close $child_in;
+	system @command;
 
-	diag "closed input";
+	open my $out_fh, '<:raw', $out_filename;
+	my $pem = do { local $/; <$out_fh> };
+	close $out_fh;
 
-	my $pem = do { local $/; <$child_out> };
-	diag "read  output";
 	$pem =~ s/\r\n/\n/g;
 
 	return $pem;
