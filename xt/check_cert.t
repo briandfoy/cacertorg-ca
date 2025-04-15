@@ -43,8 +43,11 @@ diag $version;
 
 skip "Need openssl for this test" unless $version =~ /OpenSSL/x;
 
+	diag "Past skip";
+
 my( $expected_sha1, $expected_sha256 );
 subtest 'expected values' => sub {
+	diag "Expected values";
 	my $url = 'http://www.cacert.org/index.php?id=3';
 	my $response = HTTP::Tiny->new->get($url);
 	my $html = $response->{content};
@@ -55,6 +58,8 @@ subtest 'expected values' => sub {
 	$expected_sha1   =~ s/\s+//g;
 	$expected_sha256 =~ s/\s+//g;
 
+	diag "Past expected";
+
 	like $expected_sha1,   qr/[A-F0-9]{32}/, 'SHA1 looks like it should';
 	like $expected_sha256, qr/[A-F0-9]{64}/, 'SHA256 looks like it should';
 
@@ -64,6 +69,7 @@ subtest 'expected values' => sub {
 
 my $der;
 subtest 'remote DER' => sub {
+	diag "remote DER";
 	$der = get_remote_der();
 	ok defined $der, 'DER is defined';
 
@@ -76,6 +82,7 @@ subtest 'remote DER' => sub {
 
 my( $pem_sha1, $pem_sha256 );
 subtest 'PEM from DER' => sub {
+	diag "PEM from DER";
 	my $pem = convert_der_to_pem($der);
 	like $pem, qr/\A-----BEGIN CERTIFICATE-----/, 'saw start sequence';
 	like $pem, qr/-----END CERTIFICATE-----\n\z/, 'saw end sequence';
@@ -85,6 +92,7 @@ subtest 'PEM from DER' => sub {
 	};
 
 subtest 'current and dist PEM' => sub {
+	diag "current";
 	my $dist_pem    = get_local_pem();
 	like $dist_pem, qr/\A-----BEGIN CERTIFICATE-----/, 'saw start sequence';
 	like $dist_pem, qr/-----END CERTIFICATE-----\n\z/, 'saw end sequence';
@@ -100,6 +108,7 @@ done_testing();
 
 sub get_remote_der {
 	my $url = 'http://www.cacert.org/certs/root_X0F.der';
+	diag "Fetching $url";
 	my $response = HTTP::Tiny->new->get($url);
 	is $response->{status}, '200', 'fetched DER' or do {
 		done_testing();
@@ -117,6 +126,8 @@ sub get_local_pem {
 sub convert_der_to_pem {
 	my( $der ) = @_;
 
+	diag "convert_der_to_pem";
+
 	my @command = qw( openssl x509  -inform der -out - );
 
 	use IPC::Open2;
@@ -124,7 +135,11 @@ sub convert_der_to_pem {
 	print { $child_in } $der;
 	close $child_in;
 
+	diag "closed input";
+
+	diag "trying to read output";
 	my $pem = do { local $/; <$child_out> };
+	diag "read  output";
 	$pem =~ s/\r\n/\n/g;
 
 	return $pem;
