@@ -82,7 +82,8 @@ subtest 'remote DER' => sub {
 
 my( $pem_sha1, $pem_sha256 );
 subtest 'PEM from DER' => sub {
-	diag "PEM from DER";
+	diag "PEM from DER: $^O";
+	skip "Windows can't do this" if $^O eq 'MSWin32';
 	my $pem = convert_der_to_pem($der);
 	like $pem, qr/\A-----BEGIN CERTIFICATE-----/, 'saw start sequence';
 	like $pem, qr/-----END CERTIFICATE-----\n\z/, 'saw end sequence';
@@ -137,14 +138,8 @@ sub convert_der_to_pem {
 
 	diag "closed input";
 
-	diag "trying to read output";
-
-
-	my $pem;
-	sysread $child_out, $pem, 65535;
-	close $child_out;
-	waitpid $pid, 0;
-
+	my $pem = do { local $/; <$child_out> };
+	diag "read  output";
 	$pem =~ s/\r\n/\n/g;
 
 	return $pem;
