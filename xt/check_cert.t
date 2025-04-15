@@ -6,7 +6,6 @@ use File::Spec::Functions qw(catfile);
 use File::Temp;
 use HTTP::Tiny;
 use Test::More;
-use Data::Dumper;
 
 =encoding utf8
 
@@ -57,9 +56,6 @@ subtest 'expected values' => sub {
 
 	like $expected_sha1,   qr/[A-F0-9]{32}/, 'SHA1 looks like it should';
 	like $expected_sha256, qr/[A-F0-9]{64}/, 'SHA256 looks like it should';
-
-	diag "SHA1: $expected_sha1";
-	diag "SHA256: $expected_sha256";
 	};
 
 my $der;
@@ -75,6 +71,7 @@ subtest 'remote DER' => sub {
 	};
 
 my( $pem_sha1, $pem_sha256 );
+
 subtest 'PEM from DER' => sub {
 	my $pem = convert_der_to_pem($der);
 	like $pem, qr/\A-----BEGIN CERTIFICATE-----/, 'saw start sequence';
@@ -116,15 +113,26 @@ sub get_local_pem {
 
 sub convert_der_to_pem {
 	my( $der ) = @_;
+	my($ifh, $in_filename) = File::Temp::tempfile(UNLINK => 1);
+	binmode $ifh, ':raw';
+	print {$ifh} $der;
+	close $ifh;
 
-	my @command = qw( openssl x509  -inform der -out - );
+	my($ofh, $out_filename) = File::Temp::tempfile(UNLINK => 1);
+	close $ofh;
 
-	use IPC::Open2;
-	my $pid = open2(my $child_out, my $child_in, @command );
-	print { $child_in } $der;
-	close $child_in;
+	my @command = (
+		qw(openssl x509 --inform der),
+		'-in', $in_filename,
+		'-out', $out_filename,
+		);
 
-	my $pem = do { local $/; <$child_out> };
+	system @command;
+
+	open my $out_fh, '<:raw', $out_filename;
+	my $pem = do { local $/; <$out_fh> };
+	close $out_fh;
+
 	$pem =~ s/\r\n/\n/g;
 
 	return $pem;
