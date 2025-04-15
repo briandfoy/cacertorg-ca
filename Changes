@@ -1,5 +1,8 @@
 Revision history for Perl module CACertOrg::CA
 
+20250415.001_001 2025-04-15T09:17:22Z
+	* try harder to verify certificate on Windows
+
 20210114.003 2025-01-09T07:27:37Z
 	* add tests to verify the ditributed cert
 
