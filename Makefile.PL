@@ -62,7 +62,6 @@ my %WriteMakefile = (
 
 	'TEST_REQUIRES' => {
 		'Test::More' => '0.94',
-		'version'    => '0.86',
 		},
 
 	'PREREQ_PM'     => {
